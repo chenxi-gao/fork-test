@@ -1,20 +1,8 @@
-{{- if .Values.airbyteBootloader.enabled }}
----
 apiVersion: v1
 kind: Pod
 metadata:
-  name: {{ .Release.Name }}-bootloader
+  name: airbyte-bootloader
   labels:
-    {{- include "airbyte.labels" . | nindent 4 }}
-    {{- if .Values.airbyteBootloader.extraLabels }}
-    {{ toYaml (mergeOverwrite .Values.airbyteBootloader.extraLabels .Values.global.extraLabels) | nindent 4 }}
-    {{- end }}
-    {{- if .Values.airbyteBootloader.podLabels}}
-      {{- include "airbyte.tplvalues.render" (dict "value" .Values.airbyteBootloader.podLabels "context" $) | nindent 4 }}
-    {{- end }}
   annotations:
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-weight: "0"
-    {{- if .Values.airbyteBootloader.podAnnotations }}
-      {{- include "airbyte.tplvalues.render" (dict "value" .Values.airbyteBootloader.podAnnotations "context" $) | nindent 4 }}
-    {{- end }}
